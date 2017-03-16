@@ -1,7 +1,5 @@
 var Sequelize = require('sequelize');
 
-var db = new Sequelize('postgres://localhost:5432/swarm', {
-  logging: false
-});
+var db = new Sequelize('postgres://localhost:5432/swarmGeo');
 
 module.exports = db;

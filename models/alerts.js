@@ -3,8 +3,7 @@ const db = require('./_db')
 
 const Alert = db.define('alert', {
   deviceId: Sequelize.STRING,
-  lat: Sequelize.FLOAT,
-  long: Sequelize.FLOAT,
+  position: Sequelize.GEOMETRY('POINT', 4326),
   codename: Sequelize.STRING,
   message: Sequelize.STRING
 })

@@ -2,12 +2,9 @@ const Sequelize = require('sequelize')
 const db = require('./_db')
 
 const User = db.define('user', {
-  deviceId: {
-    type: Sequelize.STRING
-  },
+  deviceId: Sequelize.STRING,
   fcmToken: Sequelize.STRING,
-  lat: Sequelize.FLOAT,
-  long: Sequelize.FLOAT
+  position: Sequelize.GEOMETRY('POINT', 4326)
 })
 
 module.exports = User
