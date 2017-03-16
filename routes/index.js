@@ -66,10 +66,9 @@ router.get('/alerts', (req, res, next) => {
     //    distance: {$lte: .032}
     //  }
     // })
-    console.log(Sequelize.fn('ST_MakePoint',req.query.long, req.query.lat))
       Alert.findAll({
         where: Sequelize.where(
-          Sequelize.fn('ST_DWithin', Sequelize.col('position'), Sequelize.fn('ST_SetSRID', Sequelize.fn('ST_MakePoint', req.query.long, req.query.lat), 4326), 5000), true
+          Sequelize.fn('ST_DWithin', Sequelize.col('position'), Sequelize.fn('ST_SetSRID', Sequelize.fn('ST_MakePoint', req.query.long, req.query.lat), 4326), 0.032), true
         )
       })
       .then(alerts => res.send(alerts))
@@ -79,7 +78,7 @@ router.get('/alerts', (req, res, next) => {
 router.post('/alerts', (req, res, next) => {
   let point = {
     type: 'Point',
-    coordinates: [req.body.lat, req.body.long],
+    coordinates: [req.body.long, req.body.lat],
     crs: { type: 'name', properties: { name: 'EPSG:4326'} }
   }
 
