@@ -20,7 +20,7 @@ app.use((err, req, res, next) => {
 
 })
 
-app.listen(1337, ()=> {
+app.listen(1337, () => {
   console.log('server is up on 1337')
   return db.sync()
   .then(()=> {
