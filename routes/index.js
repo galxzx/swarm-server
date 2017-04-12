@@ -39,33 +39,7 @@ router.post('/users', (req, res, next) => {
 
 
 router.get('/alerts', (req, res, next) => {
-  // const lat1 = +req.query.lat
-  // const long1 = +req.query.long
-  // const milePerLong = Math.cos(lat1) * 69.17
-  // const degPer2Mile = 2 / milePerLong
-  // Alert.findAll({
-  //   where: {
-  //     lat: {
-  //       $lte: lat1 + .032,
-  //       $gte: lat1 - .032
-  //     },
-  //     long: {
-  //       $lte: long1 + degPer2Mile,
-  //       $gte: long1 - degPer2Mile
-  //     }
-  //   }
-
-  // })
-  // const distanceAlias = Sequelize.literal('"distance"')
-
-
-
-    // Alert.findAll({
-    //   attributes: [[Sequelize.fn('ST_Distance', Sequelize.col('position'), Sequelize.fn('ST_MakePoint', req.query.long, req.query.lat)), 'distance']],
-    //   where: {
-    //    distance: {$lte: .032}
-    //  }
-    // })
+ 
       Alert.findAll({
         where: Sequelize.where(
           Sequelize.fn('ST_DWithin', Sequelize.col('position'), Sequelize.fn('ST_SetSRID', Sequelize.fn('ST_MakePoint', req.query.long, req.query.lat), 4326), 0.032), true
@@ -87,42 +61,6 @@ router.post('/alerts', (req, res, next) => {
     codename: req.body.message,
     position: point
   })
-  // .then(alert => {
-  //   const milePerLong = Math.cos(alert.lat) * 69.17
-  //   const degPer2Mile = 2 / milePerLong
-  //   return User.findAll({
-  //     where: {
-  //       lat: {
-  //         $lte: alert.lat + .032,
-  //         $gte: alert.lat - .032
-  //       },
-  //       long: {
-  //         $lte: alert.long + degPer2Mile,
-  //         $gte: alert.long - degPer2Mile
-  //       }
-  //     },
-  //     attributes: ['fcmToken']
-  //   })
-  //   .then(tokens => {
-
-  //     tokens = tokens.map(token => {
-  //       return token.fcmToken
-  //     })
-  //     let payload = {
-  //       notification: {
-  //         title: "NEW SWARM ALERT"
-  //       },
-  //       data: {
-  //         alert: JSON.stringify(alert)
-  //       }
-  //     }
-  //     return admin.messaging().sendToDevice(tokens, payload)
-  //     .then((res) => console.log(res))
-  //     .catch(err => console.log(err))
-
-  //   })
-  // })
-  // .then(() => {res.sendStatus(200)})
   .then(alert => res.send(alert))
   .catch(next)
 })
